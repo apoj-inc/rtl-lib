@@ -29,6 +29,7 @@ jobs:
         run: |
           chmod +x build_system/autotest/configure; \
           docker run ${{env.ALTERA_TOOLS_ARGS}} ${{ secrets.docker_username }}/altera_tools:latest "./build_system/autotest/configure --prefix=QUESTA"; \
+          docker ps -a; \
           CONTAINER_ID=$(docker ps -aqf "name=${{ secrets.docker_username }}/altera_tools:latest"); \
           echo $CONTAINER_ID; \
           docker cp ./build_system/.docker/altera_tools/.qsim_license/LR-253982_License.dat "$CONTAINER_ID:/home/main/.qsim_license/LR-253982_License.dat"; \
