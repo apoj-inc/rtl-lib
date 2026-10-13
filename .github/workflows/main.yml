@@ -28,13 +28,10 @@ jobs:
         shell: bash
         run: |
           chmod +x build_system/autotest/configure; \
-          docker run ${{env.ALTERA_TOOLS_ARGS}} ${{ secrets.docker_username }}/altera_tools:latest "./build_system/autotest/configure --prefix=QUESTA"; \
-          CONTAINER_ID=$(docker images -aq ${{ secrets.docker_username }}/altera_tools:latest); \
-          docker run -d ${{env.ALTERA_TOOLS_ARGS}} ${{ secrets.docker_username }}/altera_tools:latest "sleep infinity"; \
-          docker ps -a;
-          docker cp ./build_system/.docker/altera_tools/.qsim_license/LR-253982_License.dat "$CONTAINER_ID:/home/main/.qsim_license/LR-253982_License.dat"; \
-          docker run ${{env.ALTERA_TOOLS_ARGS}} ${{ secrets.docker_username }}/altera_tools:latest "make -f build_system/cctb/makefile run COCOTB_TOPLEVEL=tb_arbiter"; \
-          docker run ${{env.ALTERA_TOOLS_ARGS}} ${{ secrets.docker_username }}/altera_tools:latest "make -f build_system/autotest/makefile run_pytest TESTS_DIRS=tb/tb_arbiter"
+          docker run --name altera_tools_container ${{env.ALTERA_TOOLS_ARGS}} ${{ secrets.docker_username }}/altera_tools:latest "./build_system/autotest/configure --prefix=QUESTA"; \
+          docker cp ./build_system/.docker/altera_tools/.qsim_license/LR-253982_License.dat altera_tools_container:/home/main/.qsim_license/LR-253982_License.dat; \
+          docker run ${{env.ALTERA_TOOLS_ARGS}} ${{ secrets.docker_username }}/altera_tools:latest "make -f build_system/cctb/makefile run COCOTB_TOPLEVEL=tb_arbiter \
+          make -f build_system/autotest/makefile run_pytest TESTS_DIRS=tb/tb_arbiter"
         timeout-minutes: 15
 
       - name: Run full pytest
