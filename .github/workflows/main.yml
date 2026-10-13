@@ -33,7 +33,7 @@ jobs:
           echo $CONTAINER_ID; \
           docker cp ./build_system/.docker/altera_tools/.qsim_license/LR-253982_License.dat "$CONTAINER_ID:/home/main/.qsim_license/LR-253982_License.dat"; \
           make -f build_system/cctb/makefile run COCOTB_TOPLEVEL=tb_arbiter; \
-          make -f build_system/autotest/makefile run_pytest TESTS_DIRS=tb/tb_arbiter"
+          make -f build_system/autotest/makefile run_pytest TESTS_DIRS=tb/tb_arbiter
         timeout-minutes: 15
 
       - name: Run full pytest
