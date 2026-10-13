@@ -44,10 +44,12 @@ jobs:
         timeout-minutes: 60
 
       - name: Archive artifacts
+        if: always()
         shell: bash
         run: tar -cvf ${{ runner.temp }}/logs.tar ./.cache
 
       - name: Upload artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build_system_logs
