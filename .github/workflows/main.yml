@@ -121,5 +121,5 @@ jobs:
         
       - name: Run build release
         shell: bash
-        run: docker run ${{env.ALTERA_TOOLS_ARGS}} ${{ secrets.DOCKER_USERNAME }}/altera_tools-dev:latest "make -f build_system/quartus/makefile create_releases"
+        run: docker run ${{env.ALTERA_TOOLS_ARGS}} altera_tools-dev:latest "make -f build_system/quartus/makefile create_releases"
         timeout-minutes: 60
