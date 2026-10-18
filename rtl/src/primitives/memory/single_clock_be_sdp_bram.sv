@@ -13,6 +13,23 @@ module single_clock_be_sdp_bram #(
     output logic [DATA_WIDTH-1:0] rdata
 );
 
+`ifdef XILINX
+
+    logic [DATA_WIDTH-1:0] ram [2**ADDR_WIDTH];
+
+    always @( posedge clk_i ) begin : ram_a
+        if(we) begin
+            for (int i = 0; i < DATA_BYTES; i++) begin
+                if (be[i]) begin
+                    ram[waddr][i*8 +: 8] <= wdata[i*8 +: 8];
+                end
+            end
+        end
+        rdata <= ram[raddr];
+    end
+
+`elsif QUARTUS
+
     logic [DATA_BYTES-1:0][7:0] ram [2**ADDR_WIDTH];
 
     always @( posedge clk_i ) begin : ram_a
@@ -28,5 +45,7 @@ module single_clock_be_sdp_bram #(
         end
         rdata <= ram[raddr];
     end
+
+`endif
 
 endmodule
