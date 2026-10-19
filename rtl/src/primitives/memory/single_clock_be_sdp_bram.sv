@@ -28,7 +28,7 @@ module single_clock_be_sdp_bram #(
         rdata <= ram[raddr];
     end
 
-`elsif QUARTUS
+`elsif ALTERA
 
     logic [DATA_BYTES-1:0][7:0] ram [2**ADDR_WIDTH];
 
