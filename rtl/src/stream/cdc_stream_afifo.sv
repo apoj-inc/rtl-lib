@@ -35,8 +35,11 @@ module cdc_stream_afifo #(
         .TO_GRAY    (1           ),
         .DATA_WIDTH (ADDR_WIDTH+1)
     ) u_gray_converter_to_rd_gray (
-        .data_i (wr_ptr ),
-        .data_o (wr_gray)
+        .clk    (clk_wr  ),
+        .rst_n  (rst_n_wr),
+
+        .data_i (wr_ptr  ),
+        .data_o (wr_gray )
     );
     sync_ff #(
         .FF3        (0           ),
@@ -52,6 +55,9 @@ module cdc_stream_afifo #(
         .TO_GRAY    (0           ),
         .DATA_WIDTH (ADDR_WIDTH+1)
     ) u_gray_converter_to_rd_bin (
+        .clk    (clk_rd        ),
+        .rst_n  (rst_n_rd      ),
+
         .data_i (wr_gray_resync),
         .data_o (wr_resync     )
     );
@@ -61,8 +67,11 @@ module cdc_stream_afifo #(
         .TO_GRAY    (1           ),
         .DATA_WIDTH (ADDR_WIDTH+1)
     ) u_gray_converter_to_wr_gray (
-        .data_i (rd_ptr ),
-        .data_o (rd_gray)
+        .clk    (clk_rd  ),
+        .rst_n  (rst_n_rd),
+
+        .data_i (rd_ptr  ),
+        .data_o (rd_gray )
     );
     sync_ff #(
         .FF3        (0           ),
@@ -78,6 +87,9 @@ module cdc_stream_afifo #(
         .TO_GRAY    (0           ),
         .DATA_WIDTH (ADDR_WIDTH+1)
     ) u_gray_converter_to_wr_bin (
+        .clk    (clk_wr        ),
+        .rst_n  (rst_n_wr      ),
+
         .data_i (rd_gray_resync),
         .data_o (rd_resync     )
     );
